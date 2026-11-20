@@ -1,0 +1,131 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.scrolled {
+  background: rgba(11, 17, 32, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom-color: var(--border);
+}
+
+.nav {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.logoName {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.links a {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.links a:hover {
+  color: var(--text);
+}
+
+.toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.bar,
+.bar::before,
+.bar::after {
+  position: absolute;
+  left: 8px;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.bar {
+  top: 19px;
+}
+
+.bar::before,
+.bar::after {
+  content: "";
+  left: 0;
+}
+
+.bar::before {
+  top: -7px;
+}
+
+.bar::after {
+  top: 7px;
+}
+
+.barOpen {
+  background: transparent;
+}
+
+.barOpen::before {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.barOpen::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 760px) {
+  .toggle {
+    display: block;
+  }
+
+  .links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .linksOpen {
+    max-height: 320px;
+  }
+
+  .links a {
+    display: block;
+    padding: 1rem 1.5rem;
+  }
+}
