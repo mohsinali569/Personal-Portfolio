@@ -49,7 +49,7 @@ export const profile = {
     "I enjoy solving problems for people, keeping processes organised, and supporting clients and managers as a reliable virtual assistant.",
   ],
   // TODO: replace with your real email / phone
-  email: "your.email@example.com",
+  email: "mohsin.euroshub@gmail.com",
   phone: "",
   socials: [
     {
