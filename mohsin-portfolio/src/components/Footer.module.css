@@ -1,16 +1,30 @@
 .footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem 0;
+  border-top: 1px solid var(--line);
+  padding: 4rem 0 2rem;
+  overflow: hidden;
+}
+
+.big {
+  font-family: var(--font-serif);
+  font-size: clamp(3.5rem, 14vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  opacity: 0.95;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
   color: var(--muted);
   font-size: 0.9rem;
 }
 
-.inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+.top {
+  transition: color 0.25s var(--ease);
 }
 
 .top:hover {

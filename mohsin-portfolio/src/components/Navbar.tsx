@@ -2,20 +2,30 @@
 
 import { useEffect, useState } from "react";
 import { navLinks, profile } from "@/data/profile";
+import ThemeToggle from "./ThemeToggle";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
 
+  // Highlight the section currently on screen
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const ids = navLinks.map((l) => l.href.slice(1));
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && setActive(`#${e.target.id}`));
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => io.observe(s));
+    return () => io.disconnect();
   }, []);
 
-  // Close the mobile menu with the Escape key
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -23,39 +33,44 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const initials = profile.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("");
+  const [first, ...rest] = profile.name.split(" ");
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-      <nav className={`container ${styles.nav}`} aria-label="Main navigation">
+    <header className={styles.header}>
+      <nav className={styles.nav} aria-label="Main navigation">
         <a href="#top" className={styles.logo} aria-label="Go to top">
-          <span className="gradient-text">{initials}</span>
-          <span className={styles.logoName}>{profile.name}</span>
+          {first}
+          <span className="italic-accent"> {rest.join(" ")}</span>
         </a>
 
-        <button
-          type="button"
-          className={styles.toggle}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          aria-controls="nav-links"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className={`${styles.bar} ${open ? styles.barOpen : ""}`} />
-        </button>
-
-        <ul id="nav-links" className={`${styles.links} ${open ? styles.linksOpen : ""}`}>
+        <ul id="nav-links" className={`${styles.links} ${open ? styles.open : ""}`}>
           {navLinks.map((link) => (
             <li key={link.href}>
-              <a href={link.href} onClick={() => setOpen(false)}>
+              <a
+                href={link.href}
+                className={active === link.href ? styles.active : undefined}
+                aria-current={active === link.href ? "true" : undefined}
+                onClick={() => setOpen(false)}
+              >
                 {link.label}
               </a>
             </li>
           ))}
         </ul>
+
+        <div className={styles.actions}>
+          <ThemeToggle />
+          <button
+            type="button"
+            className={styles.menu}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="nav-links"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className={`${styles.bars} ${open ? styles.barsOpen : ""}`} />
+          </button>
+        </div>
       </nav>
     </header>
   );

@@ -36,6 +36,10 @@ export const profile = {
   title: "Senior Project Executive",
   company: "EurosHub",
   location: "Rawalpindi, Punjab, Pakistan",
+  city: "Rawalpindi",
+  timeZone: "Asia/Karachi",
+  /** Shown with a green dot in the hero. Set to "" to hide. */
+  availability: "Open to new opportunities",
   photo: "/profile.jpg",
   tagline:
     "Customer-focused professional helping teams deliver smooth support, organised accounts and data-driven decisions.",
@@ -45,7 +49,7 @@ export const profile = {
     "I enjoy solving problems for people, keeping processes organised, and supporting clients and managers as a reliable virtual assistant.",
   ],
   // TODO: replace with your real email / phone
-  email: "mohsin.euroshub@gmail.com",
+  email: "your.email@example.com",
   phone: "",
   socials: [
     {

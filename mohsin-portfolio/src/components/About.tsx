@@ -1,28 +1,57 @@
-import { profile, stats } from "@/data/profile";
+import { profile, stats, experience } from "@/data/profile";
+import SectionHeader from "./SectionHeader";
+import LocalTime from "./LocalTime";
 import styles from "./About.module.css";
 
 export default function About() {
+  const current = experience.find((e) => e.end.toLowerCase() === "present");
+
   return (
-    <section id="about" className="section section-alt">
+    <section id="about" className="section">
       <div className="container">
-        <p className="section-label">About me</p>
-        <h2 className="section-title">Who I am</h2>
+        <SectionHeader
+          index="01"
+          label="About"
+          title={
+            <>
+              People first, <em className="italic-accent">data</em> close behind.
+            </>
+          }
+        />
 
-        <div className={styles.grid}>
-          <div className={styles.text}>
-            {profile.about.map((para) => (
-              <p key={para.slice(0, 24)}>{para}</p>
+        <div className={styles.bento}>
+          <article className={`${styles.tile} ${styles.story} reveal`}>
+            {profile.about.map((para, i) => (
+              <p key={i} className={i === 0 ? styles.lead : undefined}>
+                {para}
+              </p>
             ))}
+          </article>
+
+          {stats.map((s) => (
+            <div key={s.label} className={`${styles.tile} ${styles.stat} reveal`}>
+              <span className={styles.statValue}>{s.value}</span>
+              <span className={styles.statLabel}>{s.label}</span>
+            </div>
+          ))}
+
+          {current && (
+            <div className={`${styles.tile} ${styles.now} reveal`}>
+              <span className={styles.tag}>Now</span>
+              <p className={styles.nowRole}>{current.role}</p>
+              <p className={styles.nowCompany}>
+                {current.company} · {current.workMode}
+              </p>
+            </div>
+          )}
+
+          <div className={`${styles.tile} ${styles.place} reveal`}>
+            <span className={styles.tag}>Location</span>
+            <p className={styles.nowRole}>{profile.city}</p>
+            <p className={styles.nowCompany}>
+              <LocalTime timeZone={profile.timeZone} /> · PKT (UTC+5)
+            </p>
           </div>
-
-          <ul className={styles.stats}>
-            {stats.map((s) => (
-              <li key={s.label} className={styles.stat}>
-                <span className={`gradient-text ${styles.value}`}>{s.value}</span>
-                <span className={styles.label}>{s.label}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

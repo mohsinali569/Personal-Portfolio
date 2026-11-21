@@ -2,20 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { skills, type SkillCategory } from "@/data/profile";
+import SectionHeader from "./SectionHeader";
 import styles from "./Skills.module.css";
 
 type Filter = "All" | SkillCategory;
-
 const FILTERS: Filter[] = ["All", "Industry Knowledge", "Tools & Technologies"];
-
-const ICONS: Record<string, string> = {
-  "Customer Service Operations": "🎧",
-  "Microsoft Excel": "📊",
-  "Account Management": "🤝",
-  "Data Analysis": "📈",
-  "Virtual Assistance": "💻",
-  "Customer Service": "💬",
-};
 
 export default function Skills() {
   const [active, setActive] = useState<Filter>("All");
@@ -25,13 +16,22 @@ export default function Skills() {
     [active]
   );
 
+  const count = (f: Filter) => (f === "All" ? skills.length : skills.filter((s) => s.category === f).length);
+
   return (
     <section id="skills" className="section">
       <div className="container">
-        <p className="section-label">Skills</p>
-        <h2 className="section-title">What I bring to the table</h2>
+        <SectionHeader
+          index="02"
+          label="Skills"
+          title={
+            <>
+              What I do <em className="italic-accent">well.</em>
+            </>
+          }
+        />
 
-        <div className={styles.filters} role="group" aria-label="Filter skills">
+        <div className={`${styles.filters} reveal`} role="group" aria-label="Filter skills">
           {FILTERS.map((f) => (
             <button
               key={f}
@@ -41,24 +41,26 @@ export default function Skills() {
               onClick={() => setActive(f)}
             >
               {f}
+              <sup className={styles.count}>{count(f)}</sup>
             </button>
           ))}
         </div>
 
-        <ul className={styles.grid}>
-          {visible.map((skill) => (
-            <li key={skill.name} className={styles.card}>
-              <span className={styles.icon} aria-hidden="true">
-                {ICONS[skill.name] ?? "⭐"}
+        <ol className={styles.list}>
+          {visible.map((skill, i) => (
+            <li key={skill.name} className={styles.row}>
+              <span className={styles.num}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.name}>{skill.name}</span>
+              <span className={styles.meta}>
+                <span className={styles.cat}>{skill.category}</span>
+                {skill.usedAt && <span className={styles.used}>{skill.usedAt}</span>}
               </span>
-              <div>
-                <h3 className={styles.name}>{skill.name}</h3>
-                <p className={styles.category}>{skill.category}</p>
-                {skill.usedAt && <p className={styles.usedAt}>{skill.usedAt}</p>}
-              </div>
+              <span className={styles.arrow} aria-hidden="true">
+                ↗
+              </span>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );

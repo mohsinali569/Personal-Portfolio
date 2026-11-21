@@ -2,6 +2,21 @@
 
 Personal portfolio website built with **Next.js 16 (App Router)**, **React 19**, **TypeScript** and **CSS Modules**.
 
+## Design: "Cream & Burgundy"
+
+A warm editorial theme built on two brand colours — cream `#fef4dc` and burgundy `#4B0000` —
+**Instrument Serif** headlines and **Manrope** body text. Light mode is cream with burgundy text; dark mode is deep burgundy with cream text.
+
+Features:
+
+- Light / dark mode toggle (remembers the visitor's choice, follows system setting by default, no flash on load)
+- Floating glass navbar that highlights the section you are reading
+- Live local time for Rawalpindi
+- Scrolling skills ticker, bento-grid About section, numbered editorial skills list with filters
+- Scroll progress bar and smooth reveal-on-scroll animations (turned off for users who prefer reduced motion)
+- One-click "copy email" button and a validated contact form
+- Fully responsive (mobile, tablet, desktop)
+
 ## Run it locally
 
 Requirements: Node.js 20 or newer.
@@ -43,7 +58,12 @@ mohsin-portfolio/
 │   │   ├── not-found.tsx    # 404 page
 │   │   └── globals.css      # colours, base styles, buttons
 │   ├── components/          # each section + its .module.css
-│   │   ├── Navbar.tsx       # sticky nav + mobile menu
+│   │   ├── Navbar.tsx       # floating nav + active section + mobile menu
+│   │   ├── ThemeToggle.tsx  # light / dark switch
+│   │   ├── LocalTime.tsx    # live clock
+│   │   ├── SectionHeader.tsx
+│   │   ├── ScrollProgress.tsx
+│   │   ├── RevealObserver.tsx
 │   │   ├── Hero.tsx
 │   │   ├── About.tsx
 │   │   ├── Skills.tsx       # filterable skills (All / Industry / Tools)
@@ -59,7 +79,10 @@ mohsin-portfolio/
 
 ## Change colours
 
-Edit the variables at the top of `src/app/globals.css` (`--accent`, `--accent-2`, `--bg`, ...).
+Edit the variables at the top of `src/app/globals.css`. There is one block for the light theme
+and one for `[data-theme="dark"]` (`--accent`, `--sage`, `--bg`, `--ink`, ...).
+
+Availability badge text ("Open to new opportunities") is set in `src/data/profile.ts` — set it to `""` to hide it.
 
 ## Deploy
 
